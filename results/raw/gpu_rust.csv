@@ -1,0 +1,16 @@
+benchmark,language,input_size,trial,kernel_time_ms,h2d_time_ms,d2h_time_ms,gflops,bandwidth_gbps
+cuda_matmul_tiled,rust_cuda,1024,0,0.0003,0,0,7697074.01,0
+cuda_matmul_tiled,rust_cuda,1024,1,0.0003,0,0,7040929.99,0
+cuda_matmul_tiled,rust_cuda,1024,2,0.0002,0,0,9216668.02,0
+cuda_matmul_tiled,rust_cuda,1024,3,0.0002,0,0,9544371.77,0
+cuda_matmul_tiled,rust_cuda,1024,4,0.0002,0,0,9850842.42,0
+cuda_softmax,rust_cuda,64x16384,0,0.0075,0,0,0,1121.02
+cuda_softmax,rust_cuda,64x16384,1,0.0003,0,0,0,31418.01
+cuda_softmax,rust_cuda,64x16384,2,0.0002,0,0,0,36002.61
+cuda_softmax,rust_cuda,64x16384,3,0.0002,0,0,0,36792.14
+cuda_softmax,rust_cuda,64x16384,4,0.0002,0,0,0,43018.50
+cuda_reduction,rust_cuda,1000000,0,0.0003,0,0,3984.06,0
+cuda_reduction,rust_cuda,1000000,1,0.0003,0,0,3225.80,0
+cuda_reduction,rust_cuda,1000000,2,0.0002,0,0,4999.99,0
+cuda_reduction,rust_cuda,1000000,3,0.0002,0,0,4999.99,0
+cuda_reduction,rust_cuda,1000000,4,0.0002,0,0,5102.04,0

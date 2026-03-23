@@ -1,0 +1,10 @@
+[package]
+name = "rust-gpu-benchmarks"
+version = "0.1.0"
+edition = "2021"
+description = "Rust GPU benchmarks using CUDA Driver API via cudarc"
+
+[dependencies]
+# CUDA 13.x is newer than cudarc 0.11's auto-detect list; pin to latest 12.x cfg (driver is compatible).
+cudarc = { version = "0.11", features = ["cuda-12050"] }
+half = "2.3"

@@ -1,0 +1,19 @@
+{
+  "loc": {
+    "cpp_cpu": 739,
+    "cpp_gpu": 709,
+    "rust_cpu": 731,
+    "rust_gpu": 141,
+    "ratio": 0.6
+  },
+  "unsafe_blocks": {
+    "cpu": 0,
+    "gpu": 0,
+    "total": 0,
+    "locations": []
+  },
+  "compile_time": {
+    "cpp_cpu_seconds": null,
+    "rust_cpu_seconds": null
+  }
+}
