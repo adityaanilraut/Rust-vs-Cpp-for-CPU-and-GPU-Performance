@@ -83,6 +83,7 @@ This study operationalises that question through three hypotheses:
     guarantees carry no explicit opt-out cost in this benchmark set.
 \end{enumerate}
 
+
 \subsection{Significance of the Study}
 
 Prior work suggests that Rust can approach C++ performance on CPU workloads
@@ -91,7 +92,7 @@ back-ends or driver bindings~\cite{bychkov2022rust, ivanov2022rust,
 martins2025npb}.
 However, no prior study has evaluated Rust and C++ together on both CPU and
 GPU tasks using a single, unified benchmark project with end-to-end
-statistical rigour and a consistent hardware environment.
+statistical rigour and a consistent hardware environment~\cite{georges2007statistically}.
 This study fills that gap by providing a controlled, reproducible comparison
 tied to publicly committed artifacts.
 
@@ -138,7 +139,7 @@ Fortran) is continuing to narrow, though some collective-communication
 workloads retain non-trivial overheads~\cite{martins2025npb}.
 The Stack Overflow Developer Survey consistently ranks Rust as the
 most-admired language while noting that its adoption in production HPC
-contexts is still limited relative to C++~\cite{stackoverflowSurvey2024},
+contexts remains limited relative to C++~\cite{stackoverflowSurvey2024},
 which motivates studies like this one that quantify the actual performance
 cost of that adoption.
 
