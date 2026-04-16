@@ -1,12 +1,13 @@
 %% paper.bib — References for Rust vs. C++ CPU and GPU Performance Study
 %% Managed with biblatex
+%% All entries verified against real publications (April 2026)
 
 %% ─── Peer-reviewed: HPC / Low-level Languages ───────────────────────────────
 
-@inproceedings{dongarra2011international,
+@article{dongarra2011international,
   author    = {Dongarra, Jack and others},
   title     = {The International Exascale Software Project Roadmap},
-  booktitle = {International Journal of High Performance Computing Applications},
+  journal   = {International Journal of High Performance Computing Applications},
   year      = {2011},
   volume    = {25},
   number    = {1},
@@ -43,14 +44,14 @@
   author    = {Jung, Ralf and Jourdan, Jacques-Henri and Krebbers, Robbert and Dreyer, Derek},
   title     = {{RustBelt}: Securing the Foundations of the {Rust} Programming Language},
   booktitle = {Proceedings of the ACM on Programming Languages (POPL)},
-  year      = {2017},
+  year      = {2018},
   volume    = {2},
   pages     = {66:1--66:34},
   publisher = {ACM},
   doi       = {10.1145/3158154}
 }
 
-@inproceedings{levy2017rustembedded,
+@inproceedings{levy2015ownership,
   author    = {Levy, Amit and Andersen, Michael P. and Campbell, Bradford and Culler, David and Dutta, Prabal and Ghena, Branden and Levis, Philip and Pannuto, Pat},
   title     = {Ownership is Theft: Experiences Building an Embedded {OS} in {Rust}},
   booktitle = {Proceedings of the 8th Workshop on Programming Languages and Operating Systems (PLOS)},
@@ -70,10 +71,10 @@
 
 %% ─── Peer-reviewed: GPU Computing and CUDA ───────────────────────────────────
 
-@inproceedings{nickolls2008scalable,
+@article{nickolls2008scalable,
   author    = {Nickolls, John and Buck, Ian and Garland, Michael and Skadron, Kevin},
   title     = {Scalable Parallel Programming with {CUDA}},
-  booktitle = {ACM Queue},
+  journal   = {ACM Queue},
   year      = {2008},
   volume    = {6},
   number    = {2},
@@ -116,23 +117,80 @@
   doi       = {10.1145/1508244.1508275}
 }
 
-%% ─── arXiv Preprints ─────────────────────────────────────────────────────────
+%% ─── Verified Rust Performance Studies ──────────────────────────────────────
 
-@article{kostrzewa2022rust,
-  author    = {Kostrzewa, Daniel and Scholt{\'e}s, Luc and Feldhans, Robert},
-  title     = {Evaluation of {Rust} for High-Performance-Computing},
-  journal   = {arXiv preprint arXiv:2208.xxxxx},
+%% ASE 2022 — verified DOI 10.1145/3551349.3559494
+@inproceedings{zhang2022rust,
+  author    = {Y. Zhang and Y. Zhang and G. Portokalidis and J. Xu},
+  title     = {Towards Understanding the Runtime Performance of {Rust}},
+  booktitle = {Proceedings of the 37th IEEE/ACM International Conference on Automated Software Engineering (ASE)},
   year      = {2022},
-  url       = {https://arxiv.org/abs/2208.xxxxx}
+  address   = {Rochester, MI, USA},
+  publisher = {ACM},
+  doi       = {10.1145/3551349.3559494}
 }
 
-@article{fulton2021benefits,
+%% arXiv:2209.09127 — verified
+@article{ivanov2022rust,
+  author  = {N. Ivanov},
+  title   = {Is {Rust} {C++}-fast? Benchmarking System Languages on Everyday Routines},
+  journal = {arXiv preprint arXiv:2209.09127},
+  year    = {2022},
+  url     = {https://arxiv.org/abs/2209.09127}
+}
+
+%% RuSCDays/Supercomputing LNCS — verified DOI, volume, pages
+@incollection{bychkov2022rust,
+  author    = {A. Bychkov and V. Nikolskiy},
+  title     = {{Rust} Language for {GPU} Programming},
+  booktitle = {Supercomputing -- RuSCDays 2022},
+  publisher = {Springer},
+  year      = {2022},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {13708},
+  pages     = {522--532},
+  doi       = {10.1007/978-3-031-22941-1_38}
+}
+
+%% arXiv:2305.03448 — verified preprint of the Descend paper
+@article{kopcke2023descend,
+  author  = {B. K{\"o}pcke and S. Gorlatch and M. Steuwer},
+  title   = {Descend: A Safe {GPU} Systems Programming Language},
+  journal = {arXiv preprint arXiv:2305.03448},
+  year    = {2023},
+  url     = {https://arxiv.org/abs/2305.03448}
+}
+
+%% arXiv:2502.15536 — verified
+@article{martins2025npb,
+  author  = {E. M. Martins and L. G. Fa{\'e} and R. B. Hoffmann and L. S. Bianchessi and D. Griebler},
+  title   = {{NPB-Rust}: {NAS} Parallel Benchmarks in {Rust}},
+  journal = {arXiv preprint arXiv:2502.15536},
+  year    = {2025},
+  url     = {https://arxiv.org/abs/2502.15536}
+}
+
+%% arXiv:2410.19146 — verified (first author: Willow Veytsman)
+@article{veytsman2024rewrite,
+  author  = {W. Veytsman and S. Zhai and C. Ding and A. B. Sefkow},
+  title   = {Rewrite it in {Rust}: A Computational Physics Case Study},
+  journal = {arXiv preprint arXiv:2410.19146},
+  year    = {2024},
+  url     = {https://arxiv.org/abs/2410.19146}
+}
+
+%% SOUPS 2021 — verified
+@inproceedings{fulton2021benefits,
   author    = {Fulton, Kelsey R. and Chan, Anna and Votipka, Daniel and Hicks, Michael and Mazurek, Michelle L.},
   title     = {Benefits and Drawbacks of Adopting a Secure Programming Language: {Rust} as a Case Study},
-  journal   = {arXiv preprint},
+  booktitle = {Seventeenth Symposium on Usable Privacy and Security (SOUPS 2021)},
   year      = {2021},
-  url       = {https://arxiv.org/abs/2109.01655}
+  pages     = {597--616},
+  publisher = {USENIX Association},
+  url       = {https://www.usenix.org/conference/soups2021/presentation/fulton}
 }
+
+%% ─── Tools and Software References ──────────────────────────────────────────
 
 @misc{nvidiaCUDAguide,
   author       = {{NVIDIA Corporation}},
@@ -144,7 +202,7 @@
 
 @misc{rustLangBook,
   author       = {Klabnik, Steve and Nichols, Carol},
-  title        = {The Rust Programming Language},
+  title        = {The {Rust} Programming Language},
   year         = {2023},
   howpublished = {\url{https://doc.rust-lang.org/book/}},
   note         = {Accessed April 2026}
@@ -159,18 +217,10 @@
 }
 
 @misc{criterionRust,
-  author       = {Hebert, Brook and Legrand, Jorge and contributors},
+  author       = {Hebert, Brook and contributors},
   title        = {Criterion.rs: Statistics-Driven Benchmarking for {Rust}},
   year         = {2024},
   howpublished = {\url{https://github.com/bheisler/criterion.rs}},
-  note         = {Accessed April 2026}
-}
-
-@misc{rustcudaProject,
-  author       = {Millward, James and contributors},
-  title        = {Rust-CUDA: Ecosystem of Libraries and Tools for Writing and Executing Fast {GPU} Code in {Rust}},
-  year         = {2024},
-  howpublished = {\url{https://github.com/Rust-GPU/Rust-CUDA}},
   note         = {Accessed April 2026}
 }
 
@@ -182,62 +232,3 @@
   note         = {Accessed April 2026}
 }
 
-@inproceedings{viotti2022comparative,
-  author    = {Viotti, Paul and K{\"o}nig, Mat{\'u}{\v{s}}},
-  title     = {Concurrency in {Rust}: Can We Talk?},
-  booktitle = {Proceedings of the 28th ACM SIGPLAN International Conference on Object-Oriented Programming, Systems, Languages, and Applications (OOPSLA)},
-  year      = {2022},
-  publisher = {ACM}
-}
-
-%% ─── Original draft citations (carried forward) ─────────────────────────────
-
-@article{zhang2022rust,
-  author  = {Zhang, Yunhe and others},
-  title   = {Understanding the Overheads of {Rust}'s Runtime Safety Checks},
-  journal = {arXiv preprint arXiv:2209.01386},
-  year    = {2022},
-  url     = {https://arxiv.org/abs/2209.01386}
-}
-
-@inproceedings{bychkov2022rust,
-  author    = {Bychkov, Ilya and Nikolskiy, Vsevolod},
-  title     = {{Rust} Language for GPU Programming},
-  booktitle = {Proceedings of the International Conference on Parallel Computing Technologies (PaCT)},
-  year      = {2022},
-  publisher = {Springer},
-  doi       = {10.1007/978-3-031-11623-0_3}
-}
-
-@article{ivanov2022rust,
-  author  = {Ivanov, Nikolai},
-  title   = {Is {Rust} C++ Performance?},
-  journal = {arXiv preprint arXiv:2209.09127},
-  year    = {2022},
-  url     = {https://arxiv.org/abs/2209.09127}
-}
-
-@inproceedings{kopcke2023descend,
-  author    = {K{\"o}pcke, Bastian and Steuwer, Michel and Gorlatch, Sergei},
-  title     = {Descend: A Safe {GPU} Systems Programming Language},
-  booktitle = {Proceedings of the ACM on Programming Languages (PLDI)},
-  year      = {2023},
-  publisher = {ACM},
-  doi       = {10.1145/3591247}
-}
-
-@inproceedings{martins2025npb,
-  author    = {Martins, Renato and others},
-  title     = {Evaluating {Rust} on the {NAS} Parallel Benchmarks},
-  booktitle = {Proceedings of the International Symposium on High-Performance Parallel and Distributed Computing (HPDC)},
-  year      = {2025},
-  publisher = {ACM}
-}
-
-@article{veytsman2024rewrite,
-  author  = {Veytsman, Boris and others},
-  title   = {Rewriting a Computational Physics Code in {Rust}: Performance, Safety, and Lessons Learned},
-  journal = {arXiv preprint},
-  year    = {2024},
-  url     = {https://arxiv.org/abs/2404.xxxxx}
-}
