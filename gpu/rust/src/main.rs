@@ -38,13 +38,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let kernel_dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("kernels");
 
     let _matmul_ptx = CudaModule::from_ptx_file(
-        &kernel_dir.join("matmul.ptx"), &dev
+        &kernel_dir.join("matmul.ptx"), "matmul", &["matmul_tiled", "matmul_naive"], &dev
     );
     let _softmax_ptx = CudaModule::from_ptx_file(
-        &kernel_dir.join("softmax.ptx"), &dev
+        &kernel_dir.join("softmax.ptx"), "softmax", &["softmax_kernel"], &dev
     );
     let _reduction_ptx = CudaModule::from_ptx_file(
-        &kernel_dir.join("reduction.ptx"), &dev
+        &kernel_dir.join("reduction.ptx"), "reduction", &["reduce_kernel"], &dev
     );
 
     // Results CSV
@@ -77,12 +77,17 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         }
 
         let mut kernel_times = Vec::new();
-        for t in 0..num_trials() {
-            let start = Instant::now();
-            // Kernel would launch here via the loaded PTX module
-            dev.synchronize()?;
-            let elapsed = start.elapsed().as_secs_f64() * 1000.0;
-            kernel_times.push(elapsed as f32);
+        if let Ok(f_matmul) = dev.get_func("matmul", "matmul_tiled") {
+            let block_dim = (32, 32, 1);
+            let grid_dim = (((n + 31) / 32) as u32, ((n + 31) / 32) as u32, 1);
+            let cfg = LaunchConfig { grid_dim, block_dim, shared_mem_bytes: 0 };
+            
+            for t in 0..num_trials() {
+                let start = Instant::now();
+                unsafe { f_matmul.launch(cfg, (&_d_a, &_d_b, &mut _d_c, n as i32)) }?;
+                dev.synchronize()?;
+                let elapsed = start.elapsed().as_secs_f64() * 1000.0;
+                kernel_times.push(elapsed as f32);
 
             let gflops = 2.0 * (n as f64).powi(3) / (elapsed * 1e-3) / 1e9;
             writeln!(csv, "cuda_matmul_tiled,rust_cuda,{},{},{:.4},0,0,{:.2},0",
@@ -92,6 +97,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         let stats = compute_stats(&kernel_times);
         println!("    Kernel: {:.3} ± {:.3} ms  [CI: {:.3} – {:.3}]",
                  stats.mean, stats.stddev, stats.ci95_low, stats.ci95_high);
+        }
     }
 
     // ── Softmax ────────────────────────────────────────────────────
@@ -106,11 +112,21 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         let _d_output = dev.alloc_zeros::<f32>(batch * seq_len)?;
 
         let mut kernel_times = Vec::new();
-        for t in 0..num_trials() {
-            let start = Instant::now();
-            dev.synchronize()?;
-            let elapsed = start.elapsed().as_secs_f64() * 1000.0;
-            kernel_times.push(elapsed as f32);
+        if let Ok(f_softmax) = dev.get_func("softmax", "softmax_kernel") {
+            let threads = 256;
+            let shared_bytes = 2 * (threads / 32) * std::mem::size_of::<f32>() as u32;
+            let cfg = LaunchConfig {
+                grid_dim: (batch as u32, 1, 1),
+                block_dim: (threads, 1, 1),
+                shared_mem_bytes: shared_bytes,
+            };
+
+            for t in 0..num_trials() {
+                let start = Instant::now();
+                unsafe { f_softmax.launch(cfg, (&_d_input, &mut _d_output, batch as i32, seq_len as i32)) }?;
+                dev.synchronize()?;
+                let elapsed = start.elapsed().as_secs_f64() * 1000.0;
+                kernel_times.push(elapsed as f32);
 
             let bw = 2.0 * (batch * seq_len) as f64 * 4.0 / (elapsed * 1e-3) / 1e9;
             writeln!(csv, "cuda_softmax,rust_cuda,{}x{},{},{:.4},0,0,0,{:.2}",
@@ -119,6 +135,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         let stats = compute_stats(&kernel_times);
         println!("    Kernel: {:.3} ± {:.3} ms", stats.mean, stats.stddev);
+        }
     }
 
     // ── Vector Reduction ───────────────────────────────────────────
@@ -132,11 +149,27 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         let _d_input = dev.htod_sync_copy(&h_input)?;
 
         let mut kernel_times = Vec::new();
-        for t in 0..num_trials() {
-            let start = Instant::now();
-            dev.synchronize()?;
-            let elapsed = start.elapsed().as_secs_f64() * 1000.0;
-            kernel_times.push(elapsed as f32);
+        if let Ok(f_reduce) = dev.get_func("reduction", "reduce_kernel") {
+            for t in 0..num_trials() {
+                let mut remaining = n as i32;
+                let mut current_d = dev.htod_sync_copy(&h_input)?;
+                
+                let start = Instant::now();
+                while remaining > 1 {
+                    let num_blocks = (remaining + 256 * 2 - 1) / (256 * 2);
+                    let mut out_d = dev.alloc_zeros::<f32>(num_blocks as usize)?;
+                    let cfg = LaunchConfig {
+                        grid_dim: (num_blocks as u32, 1, 1),
+                        block_dim: (256, 1, 1),
+                        shared_mem_bytes: 0,
+                    };
+                    unsafe { f_reduce.launch(cfg, (&current_d, &mut out_d, remaining)) }?;
+                    current_d = out_d;
+                    remaining = num_blocks;
+                }
+                dev.synchronize()?;
+                let elapsed = start.elapsed().as_secs_f64() * 1000.0;
+                kernel_times.push(elapsed as f32);
 
             let gflops = (n - 1) as f64 / (elapsed * 1e-3) / 1e9;
             writeln!(csv, "cuda_reduction,rust_cuda,{},{},{:.4},0,0,{:.2},0",
@@ -145,6 +178,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
         let stats = compute_stats(&kernel_times);
         println!("    Kernel: {:.3} ± {:.3} ms", stats.mean, stats.stddev);
+        }
     }
 
     println!("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
@@ -195,11 +229,11 @@ fn compute_stats(data: &[f32]) -> Stats {
 struct CudaModule;
 
 impl CudaModule {
-    fn from_ptx_file(path: &std::path::Path, _dev: &Arc<CudaDevice>) -> Option<()> {
+    fn from_ptx_file(path: &std::path::Path, module_name: &str, func_names: &[&str], dev: &Arc<CudaDevice>) -> Option<()> {
         if path.exists() {
-            let _ptx = std::fs::read_to_string(path).ok()?;
+            let ptx = std::fs::read_to_string(path).ok()?;
+            dev.load_ptx(ptx.into(), module_name, func_names).ok()?;
             println!("  Loaded PTX: {}", path.display());
-            // dev.load_ptx(ptx.into(), module_name, &[kernel_name])
             Some(())
         } else {
             println!("  ⚠ PTX not found: {} (compile with nvcc -ptx first)", path.display());
