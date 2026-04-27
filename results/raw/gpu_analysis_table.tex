@@ -1,0 +1,16 @@
+\begin{table}[htbp]
+\caption{GPU Kernel Performance: C++ vs.\ Rust (kernel time only, host transfer excluded)}
+\label{tab:gpu_results}
+\centering
+\begin{tabular}{llrrrrrrr}
+\toprule
+Benchmark & Size & C++ (ms) & Rust (ms) & Overhead & p-value & Cohen's $d$ & CV\% (C++) & CV\% (Rust) \\
+\midrule
+cuda\_matmul\_tiled & 1024 & 0.0018 $\pm$ 0.0009 & 0.0002 $\pm$ 0.0001 & -86.5\% & 0.0167$^{*}$ & -2.49 & 49.0 & 22.8 \\
+cuda\_reduction & 1000000 & 0.0633 $\pm$ 0.0162 & 0.0002 $\pm$ 0.0001 & -99.6\% & 0.0010$^{***}$ & -5.51 & 25.6 & 22.8 \\
+cuda\_softmax & 64x16384 & 0.0012 $\pm$ 0.0012 & 0.0017 $\pm$ 0.0033 & +37.7\% & 0.7781 & 0.19 & 96.2 & 193.7 \\
+\bottomrule
+\end{tabular}
+\smallskip
+{\small $^{*}p<0.05$, $^{**}p<0.01$, $^{***}p<0.001$. CV\% = coefficient of variation; overhead positive means Rust is slower.}
+\end{table}
