@@ -1,4 +1,0 @@
-benchmark,input_size,cpp_mean_ms,cpp_std_ms,cpp_ci_low,cpp_ci_high,rust_mean_ms,rust_std_ms,rust_ci_low,rust_ci_high,overhead_pct,t_statistic,p_value,cohens_d,cpp_cv_pct,rust_cv_pct,high_variance
-cuda_matmul_tiled,1024,0.0018,0.0009,0.0007,0.0029,0.0002,0.0001,0.0002,0.0003,-86.52,3.9371,0.016746,-2.49,49.04,22.82,True
-cuda_reduction,1000000,0.0633,0.0162,0.0432,0.0834,0.0002,0.0001,0.0002,0.0003,-99.62,8.7146,0.000955,-5.5116,25.56,22.82,True
-cuda_softmax,64x16384,0.0012,0.0012,-0.0002,0.0027,0.0017,0.0033,-0.0024,0.0057,37.7,-0.2974,0.778086,0.1881,96.18,193.68,True
