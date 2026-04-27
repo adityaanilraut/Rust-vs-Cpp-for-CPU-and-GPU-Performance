@@ -1,0 +1,35 @@
+{
+  "loc": {
+    "cpp_cpu": 752,
+    "cpp_gpu": 711,
+    "rust_cpu": 746,
+    "rust_gpu": 180,
+    "ratio": 0.63
+  },
+  "unsafe_blocks": {
+    "cpu": 0,
+    "gpu": 3,
+    "total": 3,
+    "locations": [
+      {
+        "file": "gpu/rust/src/main.rs",
+        "line": 87,
+        "content": "unsafe { f_matmul.clone().launch(cfg, (&_d_a, &_d_b, &mut _d_c, n as i32)) }?;"
+      },
+      {
+        "file": "gpu/rust/src/main.rs",
+        "line": 126,
+        "content": "unsafe { f_softmax.clone().launch(cfg, (&_d_input, &mut _d_output, batch as i32, seq_len as i32)) }?;"
+      },
+      {
+        "file": "gpu/rust/src/main.rs",
+        "line": 166,
+        "content": "unsafe { f_reduce.clone().launch(cfg, (&current_d, &mut out_d, remaining)) }?;"
+      }
+    ]
+  },
+  "compile_time": {
+    "cpp_cpu_seconds": 1.7,
+    "rust_cpu_seconds": 3.3
+  }
+}

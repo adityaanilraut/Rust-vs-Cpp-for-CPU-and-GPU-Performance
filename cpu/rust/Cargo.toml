@@ -1,0 +1,17 @@
+[package]
+name = "rust-cpu-benchmarks"
+version = "0.1.0"
+edition = "2021"
+description = "Rust CPU benchmarks for the Rust vs. C++ benchmark study"
+
+[dependencies]
+rayon = "1.8"
+rand = "0.8"
+bytemuck = { version = "1.14", features = ["derive", "extern_crate_alloc"] }
+
+[dev-dependencies]
+criterion = "0.5"
+
+[[bench]]
+name = "cpu_benchmarks"
+harness = false

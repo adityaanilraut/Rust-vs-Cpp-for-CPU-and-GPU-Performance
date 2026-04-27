@@ -1,0 +1,98 @@
+# ============================================================================
+# Rust vs. C++ Benchmark Project — .gitignore
+# ============================================================================
+
+# ─── C++ / CMake build trees ─────────────────────────────────────────────────
+cpu/cpp/build/
+gpu/cpp/build/
+**/CMakeCache.txt
+**/CMakeFiles/
+**/cmake_install.cmake
+**/CTestTestfile.cmake
+**/Makefile.cmake
+**/_deps/
+**/Testing/
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.so.*
+*.dylib
+*.dll
+*.exe
+
+# ─── Rust / Cargo build trees ────────────────────────────────────────────────
+cpu/rust/target/
+gpu/rust/target/
+**/Cargo.lock.bak
+*.rlib
+*.rmeta
+*.pdb
+
+# ─── CUDA artifacts ──────────────────────────────────────────────────────────
+*.cubin
+*.fatbin
+*.i
+*.ii
+*.gpu
+# PTX kernels are intentionally tracked under gpu/rust/kernels/*.ptx
+# (they are precompiled artifacts the Rust runner depends on at runtime).
+
+# ─── Generated datasets ──────────────────────────────────────────────────────
+# Reproducible from scripts/generate_datasets.py; metadata.json is kept.
+datasets/*.bin
+datasets/*.npy
+
+# ─── Python ──────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.python-version
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# ─── LaTeX (Overleaf-style) ──────────────────────────────────────────────────
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.lof
+*.lot
+*.nav
+*.snm
+*.vrb
+*.dvi
+papers/*.pdf
+!papers/paper-draft2.pdf
+!papers/Milestone 5 Research Plan.pdf
+
+# ─── Editor / OS ─────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.iml
+.cursor/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── Temporary ───────────────────────────────────────────────────────────────
+*.bak
+*.tmp
+*.orig
+tmp/
+scratch/
