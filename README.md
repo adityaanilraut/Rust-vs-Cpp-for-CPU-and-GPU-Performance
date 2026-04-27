@@ -73,7 +73,7 @@ Run `make help` for the full list of targets.
 - **Build trees are not tracked.** `cpu/{cpp,rust}/build|target/` and `gpu/{cpp,rust}/build|target/` are produced on demand; remove them with `make clean`.
 - **Pre-compiled PTX kernels are tracked.** `gpu/rust/kernels/*.ptx` is shipped so the Rust GPU driver runs without requiring `nvcc` at startup. Rebuild them with `make gpu-rust`.
 - **Raw results are tracked.** Everything under `results/raw/` and `results/figures/` reflects the latest run reported in the paper, so consumers can inspect outcomes without re-running benchmarks.
-- **Paper artefacts.** `papers/main.tex`, `papers/preamble.tex`, `papers/paper.bib`, and `papers/figures/` are the inputs for the Overleaf build. The two prior PDFs in `papers/` are kept for historical reference.
+- **Paper artefacts.** `papers/main.tex`, `papers/preamble.tex`, `papers/paper.bib`, and `papers/figures/` are the inputs for the Overleaf build. `papers/main.pdf` is the latest compiled PDF; older drafts in `papers/` are kept for historical reference.
 
 ## Cleaning
 

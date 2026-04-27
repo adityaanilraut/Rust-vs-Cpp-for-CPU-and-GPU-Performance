@@ -117,8 +117,8 @@ safety: ## Run safety & developer metrics analysis
 # ── Paper ────────────────────────────────────────────────────────────────────
 paper: ## Compile LaTeX paper
 	@echo "$(YELLOW)▸ Compiling paper...$(RESET)"
-	cd paper && pdflatex main.tex && bibtex main && pdflatex main.tex && pdflatex main.tex
-	@echo "$(GREEN)✓ paper/main.pdf generated$(RESET)"
+	cd papers && pdflatex main.tex && bibtex main && pdflatex main.tex && pdflatex main.tex
+	@echo "$(GREEN)✓ papers/main.pdf generated$(RESET)"
 
 # ── Cleanup ──────────────────────────────────────────────────────────────────
 clean: ## Remove build artifacts

@@ -75,6 +75,7 @@ env/
 *.vrb
 *.dvi
 papers/*.pdf
+!papers/main.pdf
 !papers/paper-draft2.pdf
 !papers/Milestone 5 Research Plan.pdf
 
